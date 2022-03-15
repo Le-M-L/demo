@@ -29,7 +29,7 @@
             console.log(e)
         }
         http.open("get", "http://localhost:9090/test", true);
-        http.setRequestHeader("cache-control", "max-age=36000 public");
+        http.setRequestHeader("cache-control", "max-age=36000, public, immutable");
         http.send(null);
         http.onreadystatechange = function () {
           //若响应完成且请求成功
