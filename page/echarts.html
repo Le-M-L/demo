@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>大屏适配</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.1/dist/echarts.min.js"></script>
+    <style>
+      #main {
+        --scale: 1;
+      }
+      .main {
+        position: absolute;
+        transform: scale(var(--scale)) translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        transform-origin: 0 0;
+        left: 50%;
+        top: 50%;
+        transition: 0.3s;
+        z-index: 999;
+      }
+    </style>
+  </head>
+  <body onload="onload">
+    <div id="main" class="main" style="width: 600px; height: 400px"></div>
+
+    <script type="text/javascript">
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById("main"));
+
+      // 指定图表的配置项和数据
+      var option = {
+        title: {
+          text: "ECharts 入门示例",
+        },
+        tooltip: {},
+        legend: {
+          data: ["销量"],
+        },
+        xAxis: {
+          data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
+        },
+        yAxis: {},
+        series: [
+          {
+            name: "销量",
+            type: "bar",
+            data: [5, 20, 36, 10, 10, 20],
+          },
+        ],
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
+      let scale = 0;
+      let width = 1920;
+      let height = 1080;
+
+      // 节流函数 默认500
+      function debounce(fn, delay) {
+        const delays = delay || 500;
+        let timer;
+        return function () {
+          const th = this;
+          const args = arguments;
+          if (timer) {
+            clearTimeout(timer);
+          }
+          timer = setTimeout(function () {
+            timer = null;
+            fn.apply(th, args);
+          }, delays);
+        };
+      }
+      function getScale() {
+        const wh = window.innerHeight / height;
+        const ww = window.innerWidth / width;
+        console.log(ww < wh ? ww : wh);
+        return ww < wh ? ww : wh;
+      }
+      function setScale() {
+        // if (window.innerHeight == 1080) {
+        //   this.height = 1080
+        // } else {
+        //   this.height = 937
+        // }
+        scale = getScale();
+        if (main) {
+          main.style.setProperty("--scale", scale);
+        }
+      }
+      window.addEventListener("resize", debounce(setScale));
+    </script>
+  </body>
+</html>
