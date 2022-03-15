@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <div id="App" ></div>
-    <script src="../dist/umd/vue.js" ></script>
+  </head>
+  <body>
+    <button id="btn">请求</button>
+    <div id="App"></div>
+    <script src="../dist/umd/vue.js"></script>
     <script>
-        new Vue({
-            el:'App',
-            data(){
-                return {
-                    data:'123'
-                }
-            }
-        })
+      new Vue({
+        el: "App",
+        data() {
+          return {
+            data: "123",
+          };
+        },
+      });
 
+      btn.onclick = () => {
+        let http = new XMLHttpRequest();
+        http.onload = (e) => {
+          console.log(e);
+        };
+        http.onerror = (e) => {
+            console.log(e)
+        }
+        http.open("get", "http://localhost:9090/test", true);
+        http.setRequestHeader("cache-control", "max-age=36000 public");
+        http.send(null);
+        http.onreadystatechange = function () {
+          //若响应完成且请求成功
+          if (http.readyState === 4 && http.status === 200) {
+            console.log(http)
+          }
+        };
+        return;
+      };
     </script>
-</body>
+  </body>
 </html>

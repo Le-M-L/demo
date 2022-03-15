@@ -3,6 +3,9 @@ nest new 文件名
 yarn install      ---- 安装依赖
 yarn start:dev    ---- 启动服务并且动态监听
 
+# 解决跨域
+app.enableCors()    ----在main.ts 中添加 可解决跨域问题
+
 # 创建路由
 nest g controller cats  ---- 创建路由控制器 创建cat文件
 
