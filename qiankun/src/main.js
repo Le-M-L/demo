@@ -1,6 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router";
+// import router from "./router";
 
 import { registerMicroApps, setDefaultMountApp, start } from "qiankun";
 Vue.config.productionTip = false;
@@ -14,7 +14,7 @@ function render({ appContent, loading } = {}) {
   if (!app) {
     app = new Vue({
       el: "#container",
-      router,
+      // router,
       data() {
         return {
           content: appContent,
@@ -50,34 +50,20 @@ function initApp() {
 
 initApp();
 
-// 传入子应用的数据
-let msg = {
-  data: {
-    auth: false,
-  },
-  fns: [
-    {
-      name: "_LOGIN",
-      _LOGIN(data) {
-        console.log(`父应用返回信息${data}`);
-      },
-    },
-  ],
-};
+
 // 注册子应用
 registerMicroApps(
   [
     {
-      name: "sub-app-1",
-      entry: "//localhost:8091",
-      render,
-      activeRule: genActiveRule("/app1"),
-      props: msg,
+      name: "sub12",
+      entry: "//localhost:9091",
+      container: "#sub1",
+      activeRule: genActiveRule("/sub1"),
     },
     {
       name: "sub-app-2",
       entry: "//localhost:8092",
-      render,
+      container: "#vue",
       activeRule: genActiveRule("/app2"),
     },
   ],
@@ -101,10 +87,9 @@ registerMicroApps(
 );
 
 // 设置默认子应用,与 genActiveRule中的参数保持一致
-setDefaultMountApp("/app1");
+setDefaultMountApp("/sub1");
 
 // 启动
-start();
-new Vue({
-  render: (h) => h(App),
-}).$mount("#app");
+start({
+  prefetch: false,
+});
