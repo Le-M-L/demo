@@ -8,16 +8,18 @@
 </template>
 
 <script>
-import { dddd } from "com"
+import * as dd from "personal-ui"
+console.log(dd);
+
 export default {
   name: "App",
   props: {
     loading: Boolean,
     content: String,
   },
-  created(){
-    dddd(211)
-  }
+  created() {
+    // dddd(211)
+  },
 };
 </script>
 

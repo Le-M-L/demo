@@ -1,4 +1,4 @@
-// 
+
 const path = require('path');
 
 function resolve(dir){
@@ -14,8 +14,4 @@ module.exports = {
       libraryExport: 'default'
     }
   },
-  chainWebpack: config => {
-    config.resolve.alias
-      .set('com',resolve('common/src'))
-  }
 }
