@@ -7,7 +7,7 @@ Vue.config.productionTip = false;
 
 let instance = null;
 
-function render(props) {
+function render() {
   instance = new Vue({
     router,
     store,
@@ -25,10 +25,10 @@ if (!window.__POWERED_BY_QIANKUN__) {
   render();
 }
 
-export async function bootstrap(props) {}
+export async function bootstrap() {}
 export async function mount(props) {
   render(props);
 }
-export async function unmount(props) {
+export async function unmount() {
   instance.$destroy(); //卸载
 }

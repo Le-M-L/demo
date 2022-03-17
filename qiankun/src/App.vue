@@ -8,12 +8,16 @@
 </template>
 
 <script>
+import { dddd } from "com"
 export default {
   name: "App",
   props: {
     loading: Boolean,
     content: String,
   },
+  created(){
+    dddd(211)
+  }
 };
 </script>
 
