@@ -4,7 +4,7 @@ debugger
 const compiler = webpack(webpackOptions);
 compiler.run((err,stats) => {
     console.log(err);
-    console.log({
+    console.log(
         stats.toJson({
             entries:true,
             chunks:true,
@@ -12,5 +12,5 @@ compiler.run((err,stats) => {
             _modules: true,
             assets:true,
         })
-    })
+    )
 })
