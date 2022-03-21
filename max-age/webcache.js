@@ -13,7 +13,6 @@ app.use(async (ctx, next) => {
   ctx.set({
     'Cache-Control': 'max-age=30'  
   });
-  console.log('111')
   await next();
 });
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Person() {
+        this.b = 2;
+      }
+      Person.prototype.b = 4;
+
+
+
+      let data = new Person();
+      // data.b = 3;
+      console.log(data,{Person})
+      let data2 = Object.create(Person.prototype)
+      // console.log(data.toString())
+      console.log(data2 instanceof Person)
+      // console.log(a.toString())
+      // console.log(b.toString())
+    </script>
+  </body>
+</html>
