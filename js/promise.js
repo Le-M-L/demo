@@ -1,3 +1,4 @@
+// 原生promise 简单的实现
 function Promise(exector) {
   this.stats = "padding";
   this.value = undefined;
@@ -101,7 +102,7 @@ Promise.prototype.then = function (oldResolve, oldReject) {
 };
 
 Promise.all = function (promises) {
-  return new Promise((resove, reject) => {
+  return new Promise((resolve, reject) => {
     let arr = [];
     let index = 0;
     for (let i = 0; i < promises.length; i++) {
@@ -110,7 +111,7 @@ Promise.all = function (promises) {
           arr[i] = res;
           index++;
           if (index === promises.length) {
-            resove(arr);
+            resolve(arr);
           }
         },
         (err) => reject(err)
