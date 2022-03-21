@@ -1,5 +1,5 @@
 <template>
-  <div>123123</div>
+  <div>组件。。。。</div>
 </template>
 
 <script>

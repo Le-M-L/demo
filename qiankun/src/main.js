@@ -62,9 +62,9 @@ registerMicroApps(
     },
     {
       name: "sub-app-2",
-      entry: "//localhost:8092",
-      container: "#vue",
-      activeRule: genActiveRule("/app2"),
+      entry: "//localhost:9092",
+      container: "#sub2",
+      activeRule: genActiveRule("/sub2"),
     },
   ],
   {

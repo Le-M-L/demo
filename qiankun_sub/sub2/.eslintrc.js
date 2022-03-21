@@ -3,6 +3,9 @@ module.exports = {
   env: {
     node: true,
   },
+  globals: {
+    __webpack_public_path__: "writable",
+  },
   extends: ["plugin:vue/essential", "eslint:recommended", "@vue/prettier"],
   parserOptions: {
     parser: "babel-eslint",

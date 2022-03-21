@@ -7,7 +7,7 @@
     <title>Document</title>
   </head>
   <body>
-    <button id="btn">请求</button>
+    <!-- <button id="btn">请求</button> -->
     <div id="App"></div>
     <script src="../dist/umd/vue.js"></script>
     <script>
@@ -20,25 +20,25 @@
         },
       });
 
-      btn.onclick = () => {
-        let http = new XMLHttpRequest();
-        http.onload = (e) => {
-          console.log(e);
-        };
-        http.onerror = (e) => {
-            console.log(e)
-        }
-        http.open("get", "http://localhost:9090/test", true);
-        http.setRequestHeader("cache-control", "max-age=36000, public, immutable");
-        http.send(null);
-        http.onreadystatechange = function () {
-          //若响应完成且请求成功
-          if (http.readyState === 4 && http.status === 200) {
-            console.log(http)
-          }
-        };
-        return;
-      };
+      // btn.onclick = () => {
+      //   let http = new XMLHttpRequest();
+      //   http.onload = (e) => {
+      //     console.log(e);
+      //   };
+      //   http.onerror = (e) => {
+      //       console.log(e)
+      //   }
+      //   http.open("get", "http://localhost:9090/test", true);
+      //   http.setRequestHeader("cache-control", "max-age=36000, public, immutable");
+      //   http.send(null);
+      //   http.onreadystatechange = function () {
+      //     //若响应完成且请求成功
+      //     if (http.readyState === 4 && http.status === 200) {
+      //       console.log(http)
+      //     }
+      //   };
+      //   return;
+      // };
     </script>
   </body>
 </html>
