@@ -1,0 +1,5 @@
+{
+  path: '%path%',
+  component: () => import('%component%'),
+  meta: { navTitle: '%navTitle%', title: '%title%', hierarchy: true }
+},
