@@ -10,9 +10,10 @@ p.then(res => {
   console.log(res)
   return res
 })
-// .finally(res => {
-//   console.log(res,'----')
-// })
+.finally(res => {
+  console.log(res,'----')
+})
 .then(res => {
   console.log(res,'====')
 })
+
