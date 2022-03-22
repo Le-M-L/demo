@@ -16,3 +16,16 @@ p.then(res => {
 .then(res => {
   console.log(res,'====')
 })
+
+let obj = {
+  name:1,
+  fn:function (){
+    console.log(this.name)
+    function dd(){
+      console.log(this.name)
+    }
+    dd()
+    dd.call(obj)
+  }
+}
+obj.fn()

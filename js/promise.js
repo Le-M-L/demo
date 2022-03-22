@@ -180,16 +180,16 @@ Promise.race = function (promises) {
 };
 
 // 延迟对象
-Promise.deferred = function () {
-  let dfd = {};
-  dfd = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      dfd.resolve = resolve;
-      dfd.reject = reject;
-    })
-  })
-  console.log(dfd);
-  return dfd
-}
+// Promise.deferred = function () {
+//   let dfd = {};
+//   dfd = new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       dfd.resolve = resolve;
+//       dfd.reject = reject;
+//     })
+//   })
+//   console.log(dfd);
+//   return dfd
+// }
 
 module.exports = Promise;
