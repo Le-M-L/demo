@@ -7,6 +7,9 @@ function Promise(exector) {
   let self = this;
 
   function resolve(value) {
+    if(value instanceof Promise){
+      return value.then(resolve,reject)
+    }
     if (self.stats === "padding") {
       self.stats = "fulfilled";
       self.value = value;
@@ -35,19 +38,30 @@ function resovePromise(promise2, x, resolve, reject) {
   try {
     if (promise2 === x) {
       return reject(new TypeError("重复引用"));
-    } else if (
-      x !== null &&
-      (typeof x === "object" || typeof x === "function")
-    ) {
-      let then = x.then;
-      if (typeof then === "function") {
-        then.call(
-          x,
-          (r) => resolve(r),
-          (err) => reject(err)
-        );
-      } else {
-        resolve(x);
+    } else if (x !== null && (typeof x === "object" || typeof x === "function")) {
+      let called;
+      try {
+        let then = x.then;
+        if (typeof then === "function") {
+          then.call(x,
+            (r) => {
+              if (called) return;
+              called = true;
+              // 如果resolve 的值还是一个 promise 那么就递归解析 直到为常量为止
+              resovePromise(promise2, r, resolve, reject)
+            },
+            (err) => {
+              if (called) return;
+              called = true;
+              reject(err)
+            }
+          );
+        } else {
+          resolve(x);
+        }
+      } catch (error) {
+        reject(error);
+
       }
     } else {
       resolve(x);
@@ -58,12 +72,15 @@ function resovePromise(promise2, x, resolve, reject) {
 }
 
 Promise.prototype.then = function (oldResolve, oldReject) {
+  oldResolve = typeof oldResolve === 'function' ? oldResolve : val => val
+  oldReject = typeof oldReject === 'function' ? oldReject : err => { throw err };
   let self = this;
   let promise2 = new Promise(function (resolve, reject) {
     if (self.stats === "fulfilled") {
       setTimeout(() => {
         try {
           let x = oldResolve(self.value);
+          self.finally(x)
           resovePromise(promise2, x, resolve, reject);
         } catch (error) {
           reject(error);
@@ -75,6 +92,7 @@ Promise.prototype.then = function (oldResolve, oldReject) {
       setTimeout(() => {
         try {
           let x = oldReject(self.value);
+          self.finally(x)
           resovePromise(promise2, x, resolve, reject);
         } catch (error) {
           reject(error);
@@ -100,6 +118,39 @@ Promise.prototype.then = function (oldResolve, oldReject) {
   });
   return promise2;
 };
+
+Promise.prototype.resolve = function(value){
+  return new Promise((resolve, reject) => {
+    resolve(value)
+  })
+}
+
+Promise.prototype.reject = function(value){
+  return new Promise((resolve, reject) => {
+    reject(value)
+  })
+}
+
+Promise.prototype.catch = function(errCallback){
+    this.then(null,errCallback)
+}
+/**
+ * 
+ * @param {*} callback  上一个promise的resolve 或者 reject
+ * @returns 
+ */
+Promise.prototype.finally = function (callback) {
+  console.log(callback)
+  let promise2 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // callback()
+      this.then(resolve,reject)
+    })
+  })
+
+  return promise2
+}
+
 
 Promise.all = function (promises) {
   return new Promise((resolve, reject) => {
@@ -127,5 +178,18 @@ Promise.race = function (promises) {
     }
   });
 };
+
+// 延迟对象
+Promise.deferred = function () {
+  let dfd = {};
+  dfd = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      dfd.resolve = resolve;
+      dfd.reject = reject;
+    })
+  })
+  console.log(dfd);
+  return dfd
+}
 
 module.exports = Promise;
