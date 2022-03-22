@@ -29,11 +29,13 @@ export default function mitt(all){
                 }
             }
         },
+        // 触发事件
         emit(type, evt){
             (all.get(type) || []).slice().map(handler => handler(evt));
 
             (all.get('*') || []).slice().map(handler => handler(type, evt))
         },
+        // 清空事件
         clear(){
             this.all.clear()
         }
