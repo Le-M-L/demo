@@ -19,6 +19,9 @@ function Promise(exector) {
   }
 
   function reject(value) {
+    if (value instanceof Promise) {
+      return value.then(resolve, reject)
+    }
     if (self.stats === "padding") {
       self.stats = "rejected";
       self.value = value;
