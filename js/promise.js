@@ -7,8 +7,8 @@ function Promise(exector) {
   let self = this;
 
   function resolve(value) {
-    if(value instanceof Promise){
-      return value.then(resolve,reject)
+    if (value instanceof Promise) {
+      return value.then(resolve, reject)
     }
     if (self.stats === "padding") {
       self.stats = "fulfilled";
@@ -119,54 +119,52 @@ Promise.prototype.then = function (oldResolve, oldReject) {
   return promise2;
 };
 
-Promise.prototype.resolve = function(value){
+Promise.prototype.resolve = function (value) {
   return new Promise((resolve, reject) => {
     resolve(value)
   })
 }
 
-Promise.prototype.reject = function(value){
+Promise.prototype.reject = function (value) {
   return new Promise((resolve, reject) => {
     reject(value)
   })
 }
 
-Promise.prototype.catch = function(errCallback){
-    this.then(null,errCallback)
-}
-/**
- * 
- * @param {*} callback  上一个promise的resolve 或者 reject
- * @returns 
- */
-Promise.prototype.finally = function (callback) {
-  console.log(callback)
-  let promise2 = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      // callback()
-      this.then(resolve,reject)
-    })
-  })
-
-  return promise2
+Promise.prototype.catch = function (errCallback) {
+  this.then(null, errCallback)
 }
 
-
+Promise.prototype.finally = function(onFinally) {
+  return this.then(
+    res => this.resolve(onFinally()).then(() => res),
+    err => this.resolve(onFinally()).then(() => { throw err; })
+  );
+};
 Promise.all = function (promises) {
   return new Promise((resolve, reject) => {
     let arr = [];
     let index = 0;
+    function setData(i, val) {
+      arr[i] = val;
+      index++;
+      if (index === promises.length) {
+        resolve(arr);
+      }
+    }
+
     for (let i = 0; i < promises.length; i++) {
-      promises[i].then(
-        (res) => {
-          arr[i] = res;
-          index++;
-          if (index === promises.length) {
-            resolve(arr);
-          }
-        },
-        (err) => reject(err)
-      );
+      if (promises[i] instanceof Promise) {
+        promises[i].then(
+          (res) => {
+            setData(i, res)
+          },
+          (err) => reject(err)
+        );
+      } else {
+        setData(i, promises[i])
+      }
+
     }
   });
 };
@@ -174,7 +172,11 @@ Promise.all = function (promises) {
 Promise.race = function (promises) {
   return new Promise((resolve, reject) => {
     for (let item of promises) {
-      item.then(resolve, reject);
+      if (item instanceof Promise) {
+        item.then(resolve, reject);
+      } else {
+        reject(item)
+      }
     }
   });
 };
