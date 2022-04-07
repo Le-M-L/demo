@@ -36,6 +36,56 @@ function merge_sort(A: Array<number>, p: number, r: number) {
   merge(A, p, q, r)
 }
 
-const A = [4, 6, 2, 57, 2, 44, 13, 1];
-merge_sort(A, 0, A.length);
-console.log(A)
+// const A = [4, 6, 2, 57, 2, 44, 13, 1];
+// merge_sort(A, 0, A.length);
+// console.log(A)
+
+/** 
+ * 中心扩散算法
+ */
+
+function longestPalindrome(s:string){
+  // 从每一个位置mid触发 向两边扩散
+  let maxLeft = 0; // 记录最长回文 子串的起点 
+  let maxRight = 0; // 记录最长回文 子串的终点 
+  let maxlen = 0; // 记录最长回文 子串的长度 
+  let len = 1;
+  //    
+  for(let mid = 0; mid < s.length; ++mid){
+    let left = mid - 1;  // 
+    let right = mid + 1; // 
+    // 向左侧扩展 直到超过边界 或 遇到与中心字符不等跳出while 循环
+    while(left >= 0 && s[left] == s[mid]){
+      left--;
+      len++;
+    }
+    // 向右侧扩展 直到超过边界 或 遇到与中心字符不等跳出while 循环
+    while(right < s.length -1 && s[right] == s[mid]){
+      right++ ;
+      len++;
+    }
+    // 同时向左右两侧扩展
+    while (left >= 0 && right <= s.length -1 && s[left] == s[right]) {
+        left--;
+        right++;
+        len+=2;
+    }
+    if(len > maxlen){
+      maxLeft = left;
+      maxRight = right;
+      maxlen = len;
+    }
+    len = 1
+  }
+  //返回子串,从pos位开始，长度为len
+  return s.substr(maxLeft + 1, maxlen);
+}
+
+// console.log(longestPalindrome("abcddcba"))
+
+/**
+ * N字排序
+ */
+function nSotr(s = "PAYPALISHIRING", numRows = 3){
+                    
+}
